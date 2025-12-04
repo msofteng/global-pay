@@ -8,8 +8,24 @@
     <link rel="stylesheet" href="assets/css/index.css">
   </head>
   <body>
-    teste
+    <div id="app">
+      {{ message }}
+    </div>
 
+    <script src="assets/js/vue.global.prod.js"></script>
     <script src="assets/js/index.js"></script>
+    <script>
+      const { createApp, ref } = Vue
+
+      createApp({
+        setup() {
+          const message = ref('Hello, vue!')
+
+          return {
+            message
+          }
+        }
+      }).mount('#app')
+    </script>
   </body>
 </html>
