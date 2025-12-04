@@ -15,23 +15,9 @@
     </div>
 
     <script src="assets/js/vue.global.prod.js"></script>
-    <script src="assets/js/index.js"></script>
+    <script type="module" src="assets/js/index.js"></script>
     <script>
-      const { createApp, ref } = Vue
-
-      createApp({
-        data() {
-          return {
-            users: []
-          }
-        },
-        methods: {
-          async listarUsuarios() {
-            const req = await fetch('http://localhost:8080/home/users');
-            this.users = await req.json();
-          }
-        }
-      }).mount('#app')
+      
     </script>
   </body>
 </html>
