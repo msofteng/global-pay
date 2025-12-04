@@ -2,6 +2,8 @@ package org.globalti.globalpay.entity;
 
 import static javax.persistence.GenerationType.*;
 
+import java.util.List;
+
 import javax.persistence.*;
 import lombok.*;
 
@@ -17,4 +19,10 @@ public class UsuarioEntity {
   private String passwordHash;
 
   private Integer numeroConta;
+
+  @OneToMany(mappedBy = "origem")
+  private List<TransferenciaEntity> transferenciasEnviadas;
+
+  @OneToMany(mappedBy = "destino")
+  private List<TransferenciaEntity> transferenciasRecebidas;
 }

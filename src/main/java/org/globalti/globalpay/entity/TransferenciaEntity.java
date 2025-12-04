@@ -26,15 +26,15 @@ public class TransferenciaEntity {
   @Column(name = "dt_agendamento")
   private LocalDateTime dataAgendamento;
 
-  @OneToOne
-  @JoinColumn(name = "origem_id", referencedColumnName = "id")
+  @ManyToOne
+  @JoinColumn(name = "origem_id")
   private UsuarioEntity origem;
 
-  @OneToOne
-  @JoinColumn(name = "destino_id", referencedColumnName = "id")
+  @ManyToOne
+  @JoinColumn(name = "destino_id")
   private UsuarioEntity destino;
 
-  @OneToOne
-  @JoinColumn(name = "taxa_id", referencedColumnName = "id")
+  @ManyToOne
+  @JoinColumn(name = "taxa_id")
   private TaxaEntity taxa;
 }
