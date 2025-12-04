@@ -1,7 +1,7 @@
 export default {
   template: `
-    <div>
+    <div class="pg-home">
       <h3>Home Page</h3>
     </div>
-  `
+  `,
 };

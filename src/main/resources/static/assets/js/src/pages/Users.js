@@ -11,8 +11,8 @@ export default {
     }
   },
   template: `
-    <div>
-      <h1>Users</h1>
+    <div class="pg-users">
+      <h3>Users</h3>
       <button @click="loadUsers">Load Users</button>
       <pre>{{ users }}</pre>
     </div>
