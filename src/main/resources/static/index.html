@@ -9,7 +9,9 @@
   </head>
   <body>
     <div id="app">
-      {{ message }}
+      <button @click="listarUsuarios">Listar Usuários</button>
+
+      {{ users }}
     </div>
 
     <script src="assets/js/vue.global.prod.js"></script>
@@ -18,11 +20,17 @@
       const { createApp, ref } = Vue
 
       createApp({
-        setup() {
-          const message = ref('Hello, vue!')
-
+        data() {
           return {
-            message
+            users: []
+          }
+        },
+        methods: {
+          async listarUsuarios() {
+            const req = await fetch('http://localhost:8080/home/users');
+            this.users = await req.json();
+
+            this.users = res;
           }
         }
       }).mount('#app')
