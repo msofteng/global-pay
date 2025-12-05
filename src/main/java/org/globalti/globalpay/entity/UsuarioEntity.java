@@ -16,9 +16,12 @@ public class UsuarioEntity {
 
   private String username;
 
-  private String passwordHash;
+  @Column(name = "password_hash")
+  private String password;
 
-  private Integer numeroConta;
+  private Long numeroConta;
+
+  private Double saldo;
 
   @OneToMany(mappedBy = "origem")
   private List<TransferenciaEntity> transferenciasEnviadas;
