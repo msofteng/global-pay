@@ -7,4 +7,9 @@ const router = createRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  document.title = to.meta?.title || 'Global PAY';
+  next();
+});
+
 export default router;

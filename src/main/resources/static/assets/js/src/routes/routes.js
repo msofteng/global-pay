@@ -14,11 +14,17 @@ const routes = [
       },
       {
         path: 'home',
-        component: Home
+        component: Home,
+        meta: {
+          title: 'Página Inicial'
+        }
       },
       {
         path: 'users',
-        component: Users
+        component: Users,
+        meta: {
+          title: 'Listar Usuários'
+        }
       }
     ]
   }
