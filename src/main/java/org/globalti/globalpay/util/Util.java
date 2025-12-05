@@ -50,4 +50,22 @@ public class Util {
 
     return Long.parseLong(sb.toString());
   }
+
+  public static Boolean isLong(String str) {
+    try {
+      Long.parseLong(str);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  public static Boolean isInt(String str) {
+    try {
+      Integer.parseInt(str);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
 }

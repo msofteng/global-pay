@@ -13,4 +13,6 @@ public class ExtratoDTO {
   private TipoExtratoEnum tipo;
   private LocalDate inicio;
   private LocalDate fim;
+  private Integer pagina;
+  private Integer quantidade;
 }

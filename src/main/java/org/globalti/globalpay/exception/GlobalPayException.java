@@ -1,7 +1,17 @@
 package org.globalti.globalpay.exception;
 
+import org.springframework.http.HttpStatus;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class GlobalPayException extends Exception {
-  public GlobalPayException(String message) {
+  private HttpStatus status;
+
+  public GlobalPayException(String message, HttpStatus status) {
     super(message);
+    this.status = status;
   }
 }

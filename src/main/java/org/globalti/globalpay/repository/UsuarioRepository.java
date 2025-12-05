@@ -3,6 +3,7 @@ package org.globalti.globalpay.repository;
 import java.util.*;
 
 import org.globalti.globalpay.entity.UsuarioEntity;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +13,5 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
   public Optional<UsuarioEntity> findByNumeroConta(Long numeroConta);
 
-  List<UsuarioEntity> findByUsernameContaining(String username);
+  Page<UsuarioEntity> findByUsernameContaining(String username, Pageable pageable);
 }
