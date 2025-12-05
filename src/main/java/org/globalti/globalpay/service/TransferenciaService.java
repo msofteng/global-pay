@@ -8,8 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 
 import org.globalti.globalpay.dto.ExtratoDTO;
 import org.globalti.globalpay.entity.*;
