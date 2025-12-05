@@ -1,14 +1,13 @@
 package org.globalti.globalpay.exception.handler;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 import java.util.List;
 
 import org.globalti.globalpay.exception.GlobalPayException;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.*;
@@ -77,6 +76,27 @@ public class GlobalExceptionHandler {
     }
 
     return ResponseEntity.status(NOT_FOUND)
+      .body(
+        new GlobalExceptionHandler.Error(
+          List.of(
+            message
+          )
+        )
+      );
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<GlobalExceptionHandler.Error> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+    String message = ex.getMessage();
+
+    if (
+      message.contains("org.globalti.globalpay.enums.TipoExtratoEnum") &&
+      message.contains("not one of the values accepted for Enum class")
+    ) {
+      message = "O tipo de extrato não é válido!";
+    }
+
+    return ResponseEntity.status(BAD_REQUEST)
       .body(
         new GlobalExceptionHandler.Error(
           List.of(

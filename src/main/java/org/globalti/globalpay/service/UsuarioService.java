@@ -46,7 +46,7 @@ public class UsuarioService {
   public UsuarioEntity buscarPorUsuarioId(String usuarioId) throws GlobalPayException {
     UsuarioEntity usuario = isLong(usuarioId) ? buscarPorId(Long.parseLong(usuarioId)) : buscarPorUsuario(usuarioId);
 
-    return limparDadosSensiveis(usuario);
+    return formatarUsuario(usuario);
   }
 
   public List<UsuarioEntity> buscarUsuarios(String username, String qtd, String page) throws GlobalPayException {
@@ -65,7 +65,7 @@ public class UsuarioService {
         Integer.parseInt(qtd)
       )
     )
-      .map(user -> limparDadosSensiveis(user))
+      .map(user -> formatarUsuario(user))
       .toList();
   }
 
@@ -78,7 +78,7 @@ public class UsuarioService {
     response.setHeader("message", "Usuário excluído com sucesso!");
   }
 
-  private UsuarioEntity limparDadosSensiveis(UsuarioEntity usuario) {
+  private UsuarioEntity formatarUsuario(UsuarioEntity usuario) {
     usuario.setId(null);
     usuario.setPassword(null);
     usuario.setNumeroConta(null);

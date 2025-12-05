@@ -6,12 +6,14 @@ import static org.globalti.globalpay.util.Util.*;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.globalti.globalpay.dto.ExtratoDTO;
 import org.globalti.globalpay.entity.*;
+import org.globalti.globalpay.enums.TipoExtratoEnum;
 import org.globalti.globalpay.exception.GlobalPayException;
 import org.globalti.globalpay.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,16 +71,7 @@ public class TransferenciaService {
 
     TransferenciaEntity novaTransferencia = transferenciaRepository.save(transferencia);
 
-    novaTransferencia.getOrigem().setTransferenciasEnviadas(null);
-    novaTransferencia.getOrigem().setTransferenciasRecebidas(null);
-    novaTransferencia.getDestino().setTransferenciasEnviadas(null);
-    novaTransferencia.getDestino().setTransferenciasRecebidas(null);
-    novaTransferencia.getOrigem().setPassword(null);
-    novaTransferencia.getDestino().setId(null);
-    novaTransferencia.getDestino().setPassword(null);
-    novaTransferencia.getDestino().setSaldo(null);
-
-    return novaTransferencia;
+    return formatarTransferencia(novaTransferencia, null);
   }
 
   public List<TransferenciaEntity> consultarTransferencias(ExtratoDTO filtro) throws GlobalPayException {
@@ -101,28 +94,71 @@ public class TransferenciaService {
 
     switch (filtro.getTipo()) {
       case ENVIADO:
-        return transferenciaRepository.findEnviadas(
-          origem.getId(),
-          filtro.getInicio(),
-          filtro.getFim(),
-          paginacao
-        ).toList();
+        return formatarTransferencias(
+          transferenciaRepository.findEnviadas(
+            origem.getId(),
+            filtro.getInicio().atTime(0, 0, 0),
+            filtro.getFim().atTime(23, 59, 59),
+            paginacao
+          ),
+          filtro.getTipo()
+        );
       case RECEBIDO:
-        return transferenciaRepository.findRecebidas(
-          origem.getId(),
-          filtro.getInicio(),
-          filtro.getFim(),
-          paginacao
-        ).toList();
+        return formatarTransferencias(
+          transferenciaRepository.findRecebidas(
+            origem.getId(),
+            filtro.getInicio().atTime(0, 0, 0),
+            filtro.getFim().atTime(23, 59, 59),
+            paginacao
+          ),
+          filtro.getTipo()
+        );
       case COMPLETO:
-        return transferenciaRepository.findExtratoCompleto(
-          origem.getId(),
-          filtro.getInicio(),
-          filtro.getFim(),
-          paginacao
-        ).toList();
+        return formatarTransferencias(
+          transferenciaRepository.findExtratoCompleto(
+            origem.getId(),
+            filtro.getInicio().atTime(0, 0, 0),
+            filtro.getFim().atTime(23, 59, 59),
+            paginacao
+          ),
+          filtro.getTipo()
+        );
       default:
         throw new GlobalPayException("Tipo de extrato inválido!", BAD_REQUEST);
     }
+  }
+
+  private List<TransferenciaEntity> formatarTransferencias(Page<TransferenciaEntity> transferencias, TipoExtratoEnum tipoExtrato) {
+    return transferencias.stream()
+      .map(transferencia -> formatarTransferencia(transferencia, tipoExtrato))
+      .collect(Collectors.toList());
+  }
+
+  private TransferenciaEntity formatarTransferencia(TransferenciaEntity transferencia, TipoExtratoEnum tipoExtrato) {
+    transferencia.getOrigem().setTransferenciasEnviadas(null);
+    transferencia.getOrigem().setTransferenciasRecebidas(null);
+    transferencia.getDestino().setTransferenciasEnviadas(null);
+    transferencia.getDestino().setTransferenciasRecebidas(null);
+    transferencia.getOrigem().setPassword(null);
+    transferencia.getDestino().setId(null);
+    transferencia.getDestino().setPassword(null);
+    transferencia.getDestino().setSaldo(null);
+
+    try {
+      switch (tipoExtrato) {
+        case ENVIADO:
+          transferencia.setOrigem(null);
+          break;
+        case RECEBIDO:
+          transferencia.setDestino(null);
+          break;
+        case COMPLETO:
+          break;
+        default:
+          break;
+      }
+    } catch (NullPointerException e) {}
+
+    return transferencia;
   }
 }
