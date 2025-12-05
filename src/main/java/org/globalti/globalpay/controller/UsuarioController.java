@@ -44,9 +44,9 @@ public class UsuarioController {
     return usuarioService.buscarUsuarios(username, quantidade, pagina);
   }
 
-  @DeleteMapping("user/{idUser}")
+  @DeleteMapping("user/{id}")
   @ResponseStatus(NO_CONTENT)
-  public void excluirUsuario(@PathVariable String idUser, HttpServletResponse response) throws GlobalPayException {
-    usuarioService.deletar(idUser, response);
+  public void excluirUsuario(@PathVariable String id, HttpServletResponse response) throws GlobalPayException {
+    usuarioService.deletar(id, response);
   }
 }

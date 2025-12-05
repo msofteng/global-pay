@@ -48,6 +48,21 @@ const http = {
     } else {
       return Promise.resolve(await res.json());
     }
+  },
+  delete: async (path, options = {}) => {
+    const res = await _http(
+      path,
+      {
+        method: 'DELETE',
+        ...options
+      }
+    );
+
+    if (!res.ok) {
+      return Promise.reject(await res.json());
+    } else {
+      return Promise.resolve(res.headers.get('message'));
+    }
   }
 };
 
