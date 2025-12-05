@@ -5,6 +5,8 @@ import static org.springframework.http.HttpStatus.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.globalti.globalpay.entity.UsuarioEntity;
 import org.globalti.globalpay.exception.GlobalPayException;
 import org.globalti.globalpay.repository.UsuarioRepository;
@@ -20,6 +22,7 @@ public class UsuarioService {
   public UsuarioEntity salvar(UsuarioEntity usuario) {
     usuario.setPassword(generateMD5(usuario.getPassword()));
     usuario.setNumeroConta(generateAccountNumber(10));
+    usuario.setSaldo(0.0);
     
     return usuarioRepository.save(usuario);
   }
@@ -33,11 +36,9 @@ public class UsuarioService {
   }
 
   public UsuarioEntity buscarPorUsuarioId(String usuarioId) throws GlobalPayException {
-    if (isLong(usuarioId)) {
-      return buscarPorId(Long.parseLong(usuarioId));
-    } else {
-      return buscarPorUsuario(usuarioId);
-    }
+    UsuarioEntity usuario = isLong(usuarioId) ? buscarPorId(Long.parseLong(usuarioId)) : buscarPorUsuario(usuarioId);
+
+    return limparDadosSensiveis(usuario);
   }
 
   public List<UsuarioEntity> buscarUsuarios(String username, String qtd, String page) throws GlobalPayException {
@@ -52,17 +53,31 @@ public class UsuarioService {
     return usuarioRepository.findByUsernameContaining(
       username,
       PageRequest.of(
-        Integer.parseInt(page),
+        Integer.parseInt(page) - 1,
         Integer.parseInt(qtd)
       )
-    ).toList();
+    )
+      .map(user -> limparDadosSensiveis(user))
+      .toList();
   }
 
-  public void deletar(String id) throws GlobalPayException {
+  public void deletar(String id, HttpServletResponse response) throws GlobalPayException {
     if (!isLong(id)) {
       throw new GlobalPayException("O ID deve ser um número!", BAD_REQUEST);
     }
 
     usuarioRepository.deleteById(Long.parseLong(id));
+    response.setHeader("message", "Usuário excluído com sucesso!");
+  }
+
+  private UsuarioEntity limparDadosSensiveis(UsuarioEntity usuario) {
+    usuario.setId(null);
+    usuario.setPassword(null);
+    usuario.setNumeroConta(null);
+    usuario.setSaldo(null);
+    usuario.setTransferenciasEnviadas(null);
+    usuario.setTransferenciasRecebidas(null);
+
+    return usuario;
   }
 }

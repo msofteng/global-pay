@@ -36,6 +36,8 @@
 	<properties>
 		<java.version>11</java.version>
 		<lombok.version>1.18.42</lombok.version>
+		 <!-- Use a compatible version for Spring Boot 2.7.x (https://stackoverflow.com/a/78191722) -->
+		<springdoc.version>1.8.0</springdoc.version>
 	</properties>
 
 	<dependencies>
@@ -74,6 +76,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc.version}</version>
+    </dependency>
 	</dependencies>
 
 	<build>

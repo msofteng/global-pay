@@ -69,7 +69,7 @@ public class TransferenciaService {
     }
 
     Pageable paginacao = PageRequest.of(
-      filtro.getPagina(),
+      filtro.getPagina() - 1,
       filtro.getQuantidade()
     );
 
