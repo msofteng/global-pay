@@ -25,7 +25,7 @@ export default {
   },
   template: `
     <div class="pg-users">
-      <h3>Users</h3>
+      <h3 class="text-3xl font-bold underline text-clifford">Users</h3>
       <button @click="loadUsers">Load Users</button>
       <button @click="registerUser">Add User</button>
       <pre>{{ users }}</pre>
