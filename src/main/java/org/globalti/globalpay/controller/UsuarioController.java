@@ -13,6 +13,7 @@ import org.globalti.globalpay.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -26,16 +27,28 @@ public class UsuarioController {
   private UsuarioService usuarioService;
 
   @PostMapping("user/add")
+  @Operation(
+    summary = "Cadastrar Cliente",
+    description = "Cadastrar um novo cliente"
+  )
   public UsuarioEntity cadastrar(@Valid @RequestBody UsuarioEntity usuario) {
     return usuarioService.salvar(usuario);
   }
 
   @GetMapping("user/{idUser}")
+  @Operation(
+    summary = "Consultar Cliente",
+    description = "Consultar um cliente pelo ID ou nome de usuário"
+  )
   public UsuarioEntity encontrarPeloUsuarioId(@PathVariable String idUser) throws GlobalPayException {
     return usuarioService.buscarPorUsuarioId(idUser);
   }
 
   @GetMapping("users/{username}")
+  @Operation(
+    summary = "Consultar Clientes",
+    description = "Consultar clientes pelo nome de usuário"
+  )
   public List<UsuarioEntity> encontrarPeloUsername(
     @PathVariable String username,
     @RequestParam String pagina,
@@ -46,6 +59,10 @@ public class UsuarioController {
 
   @DeleteMapping("user/{id}")
   @ResponseStatus(NO_CONTENT)
+  @Operation(
+    summary = "Excluir Cliente",
+    description = "Excluir um cliente pelo ID"
+  )
   public void excluirUsuario(@PathVariable String id, HttpServletResponse response) throws GlobalPayException {
     usuarioService.deletar(id, response);
   }
