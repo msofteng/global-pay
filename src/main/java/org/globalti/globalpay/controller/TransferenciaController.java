@@ -29,7 +29,7 @@ public class TransferenciaController {
   }
 
   @PostMapping("statement")
-  public List<TransferenciaEntity> consultarExtrato(@RequestBody ExtratoDTO filtro) throws GlobalPayException {
+  public List<TransferenciaEntity> consultarExtrato(@Valid @RequestBody ExtratoDTO filtro) throws GlobalPayException {
     return transferenciaService.consultarTransferencias(filtro);
   }
 }

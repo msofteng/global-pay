@@ -1,7 +1,6 @@
 package org.globalti.globalpay.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor

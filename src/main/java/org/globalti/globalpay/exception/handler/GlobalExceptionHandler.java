@@ -97,44 +97,40 @@ public class GlobalExceptionHandler {
   public ResponseEntity<GlobalExceptionHandler.Error> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
     String message = ex.getMessage();
 
-    if (
-      message.contains("org.globalti.globalpay.enums.TipoExtratoEnum") &&
-      message.contains("not one of the values accepted for Enum class")
-    ) {
-      message = "O tipo de extrato não é válido!";
-    }
+    
 
     if (ex.getRootCause() instanceof MismatchedInputException) {
       MismatchedInputException mismatchedInputException = (MismatchedInputException) ex.getRootCause();
 
+      String fieldName = buildFieldPath(mismatchedInputException.getPath());
+      String targetTypeName = mismatchedInputException.getTargetType().getSimpleName().toLowerCase();
+      String receivedType = "";
+
       if (mismatchedInputException instanceof InvalidFormatException) {
         InvalidFormatException invalidFormatException = (InvalidFormatException) mismatchedInputException;
-
-        String fieldName = buildFieldPath(invalidFormatException.getPath());
-
-        message = String.format(
-          "O campo '%s' deve ser do tipo '%s' e não '%s'!",
-          fieldName,
-          invalidFormatException.getTargetType().getSimpleName().toLowerCase(),
-          invalidFormatException.getValue().getClass().getSimpleName().toLowerCase()
-        );
+        
+        receivedType = invalidFormatException.getValue().getClass().getSimpleName().toLowerCase();
       }
 
       else {
-        String fieldName = buildFieldPath(mismatchedInputException.getPath());
-
         JsonParser parser = (JsonParser) mismatchedInputException.getProcessor();
         JsonToken token = parser.getCurrentToken();
 
-        String receivedType = translateToken(token);
-
-        message = String.format(
-          "O campo '%s' deve ser do tipo '%s' e não '%s'!",
-          fieldName,
-          mismatchedInputException.getTargetType().getSimpleName().toLowerCase(),
-          receivedType.toLowerCase()
-        );
+        receivedType = translateToken(token);
       }
+
+      if (
+        message.contains("org.globalti.globalpay.enums.TipoExtratoEnum")
+      ) {
+        targetTypeName = "ENVIADO, COMPLETO ou RECEBIDO";
+      }
+
+      message = String.format(
+        "O campo '%s' deve ser do tipo '%s' e não '%s'!",
+        fieldName,
+        targetTypeName,
+        receivedType.toLowerCase()
+      );
     }
 
     if (ex.getRootCause() instanceof DateTimeParseException) {
