@@ -14,7 +14,7 @@ export default {
     async registerUser() {
       serviceBank.cadastrarCliente({
         fullName: "MATEUS SILVA",
-        username: "luciana123",
+        username: "msofteng",
         password: "mateus123"
       }).then(response => {
         console.log(response);
