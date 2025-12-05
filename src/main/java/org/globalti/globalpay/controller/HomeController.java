@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 @RestController
 @RequestMapping("home")

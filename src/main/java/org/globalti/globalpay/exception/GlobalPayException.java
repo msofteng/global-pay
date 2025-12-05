@@ -2,8 +2,7 @@ package org.globalti.globalpay.exception;
 
 import org.springframework.http.HttpStatus;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
