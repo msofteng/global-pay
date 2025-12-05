@@ -2,15 +2,18 @@ package org.globalti.globalpay.util;
 
 import java.math.BigInteger;
 import java.security.*;
-import java.util.Random;
+import java.util.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
 public class Util {
   public static ObjectMapper objectMapper;
 
   public static final String MESSAGE_EMPTY = "não pode ficar vazio";
   public static final String MESSAGE_NULL = "não pode ser nulo";
+  public static final String MESSAGE_POSITIVE = "deve ser maior que zero";
 
   static {
     objectMapper = new ObjectMapper();
@@ -81,5 +84,61 @@ public class Util {
    */
   public static Double toFixed(Double number, Integer digits) {
     return Double.parseDouble(String.format("%." + digits + "f", number));
+  }
+
+  public static String buildFieldPath(List<Reference> path) {
+    StringBuilder sb = new StringBuilder();
+
+    for (int i = 0; i < path.size(); i++) {
+      JsonMappingException.Reference ref = path.get(i);
+
+      String fieldName = ref.getFieldName();
+
+      if (i == 0) {
+        if (fieldName != null) {
+          sb.append(fieldName);
+        }
+      } else {
+        if (fieldName != null) {
+          sb.append("[").append(fieldName).append("]");
+        }
+      }
+
+      if (ref.getIndex() >= 0) {
+        sb.append("[").append(ref.getIndex()).append("]");
+      }
+    }
+
+    return sb.toString();
+  }
+
+  public static String translateToken(JsonToken token) {
+    if (token == null)
+      return "valor inválido";
+
+    switch (token) {
+      case VALUE_TRUE:
+      case VALUE_FALSE:
+        return "booleano";
+
+      case VALUE_STRING:
+        return "texto";
+
+      case VALUE_NUMBER_INT:
+      case VALUE_NUMBER_FLOAT:
+        return "número";
+
+      case START_OBJECT:
+        return "objeto";
+
+      case START_ARRAY:
+        return "array";
+
+      case VALUE_NULL:
+        return "null";
+
+      default:
+        return token.toString();
+    }
   }
 }

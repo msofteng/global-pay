@@ -1,10 +1,12 @@
 package org.globalti.globalpay.entity;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.*;
+import static org.globalti.globalpay.util.Util.*;
 
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -17,6 +19,8 @@ public class TransferenciaEntity {
   @Schema(hidden = true)
   private Long id;
 
+  @NotNull(message = MESSAGE_NULL)
+  @Positive(message = MESSAGE_POSITIVE)
   private Double valor;
 
   @Schema(hidden = true)
@@ -30,16 +34,19 @@ public class TransferenciaEntity {
   private LocalDateTime dataOperacao;
 
   @Column(name = "dt_agendamento")
+  @NotNull(message = MESSAGE_NULL)
   private LocalDateTime dataAgendamento;
 
   @ManyToOne
   @JoinColumn(name = "origem_id")
   @Schema(implementation = ContaBancaria.class)
+  @NotNull(message = MESSAGE_NULL)
   private UsuarioEntity origem;
 
   @ManyToOne
   @JoinColumn(name = "destino_id")
   @Schema(implementation = ContaBancaria.class)
+  @NotNull(message = MESSAGE_NULL)
   private UsuarioEntity destino;
 
   @ManyToOne

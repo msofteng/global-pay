@@ -2,6 +2,8 @@ package org.globalti.globalpay.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.globalti.globalpay.dto.ExtratoDTO;
 import org.globalti.globalpay.entity.TransferenciaEntity;
 import org.globalti.globalpay.exception.GlobalPayException;
@@ -22,7 +24,7 @@ public class TransferenciaController {
   private TransferenciaService transferenciaService;
 
   @PostMapping("transfer")
-  public TransferenciaEntity realizarTransferencia(@RequestBody TransferenciaEntity transferencia) throws GlobalPayException {
+  public TransferenciaEntity realizarTransferencia(@Valid @RequestBody TransferenciaEntity transferencia) throws GlobalPayException {
     return transferenciaService.realizarTransferencia(transferencia);
   }
 
