@@ -2,10 +2,12 @@ package org.globalti.globalpay.entity;
 
 import static javax.persistence.GenerationType.*;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
+import static org.globalti.globalpay.util.Util.*;
 
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -22,12 +24,18 @@ public class UsuarioEntity {
   @Schema(hidden = true)
   private Long id;
 
+  @NotBlank(message = MESSAGE_EMPTY)
+  @NotNull(message = MESSAGE_NULL)
   private String fullName;
 
   @Column(unique = true)
+  @NotBlank(message = MESSAGE_EMPTY)
+  @NotNull(message = MESSAGE_NULL)
   private String username;
 
   @Column(name = "password_hash")
+  @NotBlank(message = MESSAGE_EMPTY)
+  @NotNull(message = MESSAGE_NULL)
   private String password;
 
   @Schema(hidden = true)

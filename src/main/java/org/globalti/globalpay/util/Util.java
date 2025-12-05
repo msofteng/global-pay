@@ -9,6 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Util {
   public static ObjectMapper objectMapper;
 
+  public static final String MESSAGE_EMPTY = "não pode ficar vazio";
+  public static final String MESSAGE_NULL = "não pode ser nulo";
+
   static {
     objectMapper = new ObjectMapper();
   }

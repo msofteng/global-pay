@@ -1,11 +1,10 @@
 package org.globalti.globalpay;
 
-import static org.globalti.globalpay.util.Util.generateMD5;
+import static org.globalti.globalpay.util.Util.*;
 
 import java.util.List;
 
-import org.globalti.globalpay.entity.TaxaEntity;
-import org.globalti.globalpay.entity.UsuarioEntity;
+import org.globalti.globalpay.entity.*;
 import org.globalti.globalpay.repository.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

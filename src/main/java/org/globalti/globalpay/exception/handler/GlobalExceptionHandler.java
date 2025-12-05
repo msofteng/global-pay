@@ -3,11 +3,13 @@ package org.globalti.globalpay.exception.handler;
 import static org.springframework.http.HttpStatus.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.globalti.globalpay.exception.GlobalPayException;
 import org.springframework.dao.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.*;
@@ -102,6 +104,20 @@ public class GlobalExceptionHandler {
           List.of(
             message
           )
+        )
+      );
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<GlobalExceptionHandler.Error> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    return ResponseEntity.status(BAD_REQUEST)
+      .body(
+        new GlobalExceptionHandler.Error(
+          ex.getBindingResult()
+            .getFieldErrors()
+            .stream()
+            .map(error -> String.format("O campo '%s' %s", error.getField(), error.getDefaultMessage()))
+            .collect(Collectors.toList())
         )
       );
   }

@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.*;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.globalti.globalpay.entity.UsuarioEntity;
 import org.globalti.globalpay.exception.GlobalPayException;
@@ -25,7 +26,7 @@ public class UsuarioController {
   private UsuarioService usuarioService;
 
   @PostMapping("user/add")
-  public UsuarioEntity cadastrar(@RequestBody UsuarioEntity usuario) {
+  public UsuarioEntity cadastrar(@Valid @RequestBody UsuarioEntity usuario) {
     return usuarioService.salvar(usuario);
   }
 
