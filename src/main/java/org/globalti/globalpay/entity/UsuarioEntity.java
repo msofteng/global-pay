@@ -15,6 +15,7 @@ import lombok.*;
 @Data
 @Entity(name = "usuario")
 @JsonInclude(NON_NULL)
+@NoArgsConstructor
 public class UsuarioEntity {
   @Id
   @GeneratedValue(strategy = IDENTITY)
@@ -42,4 +43,12 @@ public class UsuarioEntity {
   @OneToMany(mappedBy = "destino")
   @Schema(hidden = true)
   private List<TransferenciaEntity> transferenciasRecebidas;
+
+  public UsuarioEntity(String fullName, String username, String password, Long numeroConta, Double saldo) {
+    this.fullName = fullName;
+    this.username = username;
+    this.password = password;
+    this.numeroConta = numeroConta;
+    this.saldo = saldo;
+  }
 }

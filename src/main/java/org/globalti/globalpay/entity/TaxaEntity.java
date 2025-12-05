@@ -7,6 +7,7 @@ import lombok.*;
 
 @Data
 @Entity(name = "taxa")
+@NoArgsConstructor
 @RequiredArgsConstructor
 public class TaxaEntity {
   @Id

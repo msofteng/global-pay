@@ -23,8 +23,16 @@ public class UsuarioService {
     usuario.setPassword(generateMD5(usuario.getPassword()));
     usuario.setNumeroConta(generateAccountNumber(10));
     usuario.setSaldo(0.0);
+    usuario.setTransferenciasEnviadas(null);
+    usuario.setTransferenciasRecebidas(null);
+
+    UsuarioEntity novoCliente = usuarioRepository.save(usuario);
+
+    novoCliente.setPassword(null);
+    novoCliente.setId(null);
+    novoCliente.setSaldo(null);
     
-    return usuarioRepository.save(usuario);
+    return novoCliente;
   }
 
   public UsuarioEntity buscarPorId(Long id) throws GlobalPayException {

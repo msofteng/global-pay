@@ -29,7 +29,6 @@ public class Util {
       }
       return hashtext;
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
       return null;
     }
   }
@@ -67,5 +66,17 @@ public class Util {
     } catch (NumberFormatException e) {
       return false;
     }
+  }
+
+  /**
+   * Cortar os centavos de um valor (digitos) Ex: R$ 100,0832848 >>> toFixed(100.0832848, 2) >>> R$ 100,08
+   *
+   * @param number {@link Double} = valor a ser formatado
+   * @param digits {@link Integer} = quantidade de casas decimais
+   * 
+   * @return valor formatado {@link Double}
+   */
+  public static Double toFixed(Double number, Integer digits) {
+    return Double.parseDouble(String.format("%." + digits + "f", number));
   }
 }

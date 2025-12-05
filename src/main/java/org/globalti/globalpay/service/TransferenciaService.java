@@ -1,10 +1,14 @@
 package org.globalti.globalpay.service;
 
 import static org.springframework.http.HttpStatus.*;
+import static org.globalti.globalpay.util.Util.*;
 
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.globalti.globalpay.dto.ExtratoDTO;
 import org.globalti.globalpay.entity.*;
@@ -25,6 +29,9 @@ public class TransferenciaService {
   @Autowired
   private UsuarioRepository usuarioRepository;
 
+  @PersistenceContext
+  private EntityManager entityManager;
+
   public TransferenciaEntity realizarTransferencia(TransferenciaEntity transferencia) throws GlobalPayException {
      // associar a "origem" ao usuário autenticado (spring-security)
     UsuarioEntity origem = usuarioRepository.findByNumeroConta(transferencia.getOrigem().getNumeroConta())
@@ -32,27 +39,46 @@ public class TransferenciaService {
     UsuarioEntity destino = usuarioRepository.findByNumeroConta(transferencia.getDestino().getNumeroConta())
       .orElseThrow(() -> new GlobalPayException("A conta de destino não foi encontrada!", NOT_FOUND));
 
-    if (origem.getSaldo() < transferencia.getValor()) {
-      throw new GlobalPayException("Saldo insuficiente", UNPROCESSABLE_ENTITY);
-    }
+    UsuarioEntity origemRef = entityManager.getReference(UsuarioEntity.class, origem.getId());
+    UsuarioEntity destinoRef = entityManager.getReference(UsuarioEntity.class, destino.getId());
+
+    transferencia.setOrigem(origemRef);
+    transferencia.setDestino(destinoRef);
 
     transferencia.setDataOperacao(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
 
-    TaxaEntity taxa = taxaRepository.findByDiasInRange(ChronoUnit.DAYS.between(transferencia.getDataOperacao(), transferencia.getDataAgendamento()))
+    Long dias = ChronoUnit.DAYS.between(transferencia.getDataOperacao(), transferencia.getDataAgendamento());
+
+    TaxaEntity taxa = taxaRepository.findByDiasInRange(dias.intValue())
       .orElseThrow(() -> new GlobalPayException("Não existe taxa aplicável para essa quantidade de dias.", UNPROCESSABLE_ENTITY));
 
     transferencia.setTaxa(taxa);
 
-    transferencia.setValorPercentual(transferencia.getValor() * (taxa.getTaxa() / 100));
-    transferencia.setValorOperacao(transferencia.getValor() + taxa.getValor() + transferencia.getValorPercentual());
+    transferencia.setValorPercentual(toFixed(transferencia.getValor() * (taxa.getTaxa() / 100), 2));
+    transferencia.setValorOperacao(toFixed(transferencia.getValor() + taxa.getValor() + transferencia.getValorPercentual(), 2));
 
-    origem.setSaldo(origem.getSaldo() - transferencia.getValorOperacao());
-    destino.setSaldo(destino.getSaldo() + transferencia.getValor());
+    if (origem.getSaldo() < transferencia.getValorOperacao()) {
+      throw new GlobalPayException("Saldo insuficiente", UNPROCESSABLE_ENTITY);
+    }
+
+    origem.setSaldo(toFixed(origem.getSaldo() - transferencia.getValorOperacao(), 2));
+    destino.setSaldo(toFixed(destino.getSaldo() + transferencia.getValor(), 2));
 
     usuarioRepository.save(origem);
     usuarioRepository.save(destino);
 
-    return transferenciaRepository.save(transferencia);
+    TransferenciaEntity novaTransferencia = transferenciaRepository.save(transferencia);
+
+    novaTransferencia.getOrigem().setTransferenciasEnviadas(null);
+    novaTransferencia.getOrigem().setTransferenciasRecebidas(null);
+    novaTransferencia.getDestino().setTransferenciasEnviadas(null);
+    novaTransferencia.getDestino().setTransferenciasRecebidas(null);
+    novaTransferencia.getOrigem().setPassword(null);
+    novaTransferencia.getDestino().setId(null);
+    novaTransferencia.getDestino().setPassword(null);
+    novaTransferencia.getDestino().setSaldo(null);
+
+    return novaTransferencia;
   }
 
   public List<TransferenciaEntity> consultarTransferencias(ExtratoDTO filtro) throws GlobalPayException {

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TaxaRepository extends JpaRepository<TaxaEntity, Long> {
   @Query("SELECT t FROM taxa t WHERE :dias BETWEEN t.minDias AND t.maxDias")
-  Optional<TaxaEntity> findByDiasInRange(Long dias);
+  Optional<TaxaEntity> findByDiasInRange(Integer dias);
 }

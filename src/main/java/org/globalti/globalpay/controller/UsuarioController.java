@@ -26,12 +26,7 @@ public class UsuarioController {
 
   @PostMapping("user/add")
   public UsuarioEntity cadastrar(@RequestBody UsuarioEntity usuario) {
-    UsuarioEntity novoUsuario = usuarioService.salvar(usuario);
-
-    novoUsuario.setPassword(null);
-    novoUsuario.setId(null);
-
-    return novoUsuario;
+    return usuarioService.salvar(usuario);
   }
 
   @GetMapping("user/{idUser}")

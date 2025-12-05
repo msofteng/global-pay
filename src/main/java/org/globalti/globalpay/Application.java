@@ -1,9 +1,12 @@
 package org.globalti.globalpay;
 
+import static org.globalti.globalpay.util.Util.generateMD5;
+
 import java.util.List;
 
 import org.globalti.globalpay.entity.TaxaEntity;
-import org.globalti.globalpay.repository.TaxaRepository;
+import org.globalti.globalpay.entity.UsuarioEntity;
+import org.globalti.globalpay.repository.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +18,10 @@ public class Application {
 	}
 
 	@Bean
-	public CommandLineRunner run(TaxaRepository taxaRepository) {
+	public CommandLineRunner run(
+		TaxaRepository taxaRepository,
+		UsuarioRepository usuarioRepository
+	) {
 		return args -> {
 			taxaRepository.saveAll(
 				List.of(
@@ -29,6 +35,15 @@ public class Application {
 			);
 
 			System.out.println("As taxas foram carregadas com sucesso!");
+
+			usuarioRepository.saveAll(
+				List.of(
+					new UsuarioEntity("ANA LUIZA MARTINS", "analuiza", generateMD5("analuiza123"), 2239650042L, 500.0),
+					new UsuarioEntity("ANA DE OLIVEIRA PEIXOTO", "anaoliveira", generateMD5("anaoliveira123"), 6953459917L, 700.0)
+				)
+			);
+
+			System.out.println("Os clientes foram carregados com sucesso!");
 		};
 	}
 }
