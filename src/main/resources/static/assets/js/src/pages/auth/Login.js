@@ -16,9 +16,10 @@ export default {
       
       serviceBank.realizarLogin(
         data
-      ).then(_ => {
+      ).then(data => {
         this.errors = [];
         e.target.reset();
+        localStorage.setItem("usuario", JSON.stringify(data));
         window.location.href = "/#/bank";
       }).catch(error => {
         this.errors = error.errors;

@@ -12,7 +12,7 @@ const _http = httpInstance.create(baseUrl);
 
 const http = {
   get: async (path, params, options = {}) => {
-    const url = new URL(`${baseUrl}${path}`);
+    const url = new URL(`${baseUrl}/${path}`);
     url.search = new URLSearchParams(params).toString();
 
     const res = await _http(
