@@ -1,7 +1,138 @@
 export default {
   template: `
-    <div class="pg-statement">
-      <h3>Extrato</h3>
+    <div class="pg-statement max-w-3xl mx-auto py-16 px-6">
+
+      <!-- Título -->
+      <h2 class="text-center text-2xl font-semibold mb-2">
+        Consulta de Extrato Bancário
+      </h2>
+
+      <p class="text-center text-gray-500 mb-10 max-w-xl mx-auto">
+        Utilize os filtros abaixo para consultar o extrato de uma conta bancária.
+      </p>
+
+      <!-- Filtros -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+
+        <!-- Número da conta -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Número da conta</label>
+          <input 
+            type="number"
+            placeholder="000000"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+        </div>
+
+        <!-- Tipo do extrato -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tipo do extrato</label>
+          <select 
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="">Todos</option>
+            <option>Crédito</option>
+            <option>Débito</option>
+            <option>Tarifas</option>
+            <option>Transferências</option>
+          </select>
+        </div>
+
+        <!-- Data inicial -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Data inicial</label>
+          <input 
+            type="date"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+        </div>
+
+        <!-- Data final -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Data final</label>
+          <input 
+            type="date"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+        </div>
+
+      </div>
+
+      <!-- Título lista -->
+      <p class="text-sm text-gray-500 mb-4">
+        Resultados do extrato bancário
+      </p>
+
+      <hr class="border-gray-200 mb-2">
+
+      <!-- Lista de extratos -->
+      <ul class="space-y-6">
+
+        <!-- Item extrato -->
+        <li>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-medium text-gray-800">15/02/2025 — Depósito via TED</p>
+              <p class="text-gray-500 text-sm">Crédito</p>
+            </div>
+
+            <p class="font-semibold text-green-600">+ R$ 1.500,00</p>
+          </div>
+          <hr class="border-gray-200 mt-4">
+        </li>
+
+        <!-- Item extrato -->
+        <li>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-medium text-gray-800">14/02/2025 — Pagamento Mercado</p>
+              <p class="text-gray-500 text-sm">Débito</p>
+            </div>
+
+            <p class="font-semibold text-red-600">- R$ 220,73</p>
+          </div>
+          <hr class="border-gray-200 mt-4">
+        </li>
+
+        <!-- Item extrato -->
+        <li>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-medium text-gray-800">10/02/2025 — Transferência Enviada</p>
+              <p class="text-gray-500 text-sm">Débito</p>
+            </div>
+
+            <p class="font-semibold text-red-600">- R$ 500,00</p>
+          </div>
+          <hr class="border-gray-200 mt-4">
+        </li>
+
+        <!-- Item extrato -->
+        <li>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-medium text-gray-800">05/02/2025 — Recebimento PIX</p>
+              <p class="text-gray-500 text-sm">Crédito</p>
+            </div>
+
+            <p class="font-semibold text-green-600">+ R$ 300,00</p>
+          </div>
+        </li>
+
+      </ul>
+
+      <!-- Paginação -->
+      <div class="mt-10 flex justify-center gap-2">
+        <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">&laquo;</button>
+        <button class="px-3 py-1 border border-indigo-500 bg-indigo-600 text-white rounded">1</button>
+        <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">2</button>
+        <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">3</button>
+        <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">&raquo;</button>
+      </div>
+
     </div>
   `,
 };
