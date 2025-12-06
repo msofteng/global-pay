@@ -8,8 +8,12 @@ export default {
           path: "/home"
         },
         {
-          name: "Usuários",
-          path: "/users"
+          name: "Login",
+          path: "/auth/login"
+        },
+        {
+          name: "Cadastro",
+          path: "/auth/register"
         }
       ]
     }
