@@ -119,5 +119,22 @@ export default {
    */
   consultarExtrato: (data) => {
     return http.post("/bank/transfer", data);
+  },
+
+  /**
+   * Realiza o login do usuário.
+   * 
+   * @param {Object} data - Objeto contendo os dados do login.
+   * @param {string} data.username - Nome de usuário do usuário.
+   * @param {string} data.password - Senha do usuário.
+   * 
+   * @returns {Promise<Object>} Resposta contendo os dados do usuário.
+   * @returns {string} `return.fullName` - Nome completo do usuário.
+   * @returns {string} `return.username` - Nome de usuário do usuário.
+   * @returns {number} `return.numeroConta` - Número da conta do usuário.
+   * @returns {number} `return.saldo` - Saldo do usuário.
+   */
+  realizarLogin: (data) => {
+    return http.post("/auth/login", data);
   }
 }

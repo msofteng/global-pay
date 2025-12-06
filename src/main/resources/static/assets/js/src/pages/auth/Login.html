@@ -39,6 +39,18 @@
         </div>
       </form>
 
+      <div class="errors mt-5">
+        <div
+          class="p-4 px-6 mb-3 bg-red-700 items-center text-indigo-100 leading-none rounded-full flex lg:inline-flex w-full"
+          v-for="e in errors"
+          role="alert"
+        >
+          <span class="font-normal text-left flex-auto text-white">
+            {{ e }}
+          </span>
+        </div>
+      </div>
+
       <p class="mt-10 text-center text-sm/6 text-gray-500">
         Não é um cliente? 
         <router-link to="/auth/register" class="font-semibold text-primary">

@@ -21,9 +21,10 @@ export default {
 
       serviceBank.cadastrarCliente(
         data
-      ).then(response => {
-        console.log(response);
+      ).then(_ => {
         this.errors = [];
+        e.target.reset();
+        window.location.href = "/#/auth/login";
       }).catch(error => {
         this.errors = error.errors;
       });
