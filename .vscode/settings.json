@@ -1,0 +1,12 @@
+{
+	"java.configuration.updateBuildConfiguration": "automatic",
+	"editor.tabSize": 2,
+	"workbench.tree.indent": 16,
+	"[java]": {
+		"editor.tabSize": 2
+	},
+	"[xml]": {
+		"editor.tabSize": 2
+	},
+	"css.lint.unknownAtRules": "ignore"
+}

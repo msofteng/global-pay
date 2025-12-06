@@ -1,5 +1,14 @@
 <template id="statement-template">
   <div class="max-w-3xl mx-auto py-16 px-6">
+    <router-link 
+      to="/bank" 
+      class="fixed bottom-4 right-4 w-12 h-12 rounded-full bg-primary text-brand flex items-center justify-center shadow-lg"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="size-6">
+        <path d="M14.75 19.5l-7.5-7.5 7.5-7.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </router-link>
+
     <!-- Título -->
     <h2 class="text-center text-2xl font-semibold mb-2">
       Consulta de Extrato Bancário
@@ -43,7 +52,7 @@
 
       <div>
         <label class="block text-sm font-medium mb-1 opacity-0">send</label>
-        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-medium">
+        <button type="submit" class="w-full bg-primary text-white py-2 rounded-lg font-medium">
           Consultar
         </button>
       </div>
@@ -116,7 +125,7 @@
     <!-- Paginação -->
     <div class="mt-10 flex justify-center gap-2">
       <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">&laquo;</button>
-      <button class="px-3 py-1 border border-indigo-500 bg-indigo-600 text-white rounded">1</button>
+      <button class="px-3 py-1 border border-primary bg-primary text-white rounded">1</button>
       <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">2</button>
       <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">3</button>
       <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">&raquo;</button>
