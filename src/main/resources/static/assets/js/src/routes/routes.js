@@ -1,12 +1,13 @@
+import AppLayout from "../layout/AppLayout.js";
 import Home from "../pages/Home.js";
 import Users from "../pages/Users.js";
+import authRoutes from "./authRoutes.js";
+import bankRoutes from "./bankRoutes.js";
 
 const routes = [
   {
     path: "",
-    component: {
-      template: "<router-view />"
-    },
+    component: AppLayout,
     children: [
       {
         path: "",
@@ -25,7 +26,9 @@ const routes = [
         meta: {
           title: "Listar Usuários"
         }
-      }
+      },
+      authRoutes,
+      bankRoutes
     ]
   }
 ];
