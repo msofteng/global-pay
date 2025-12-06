@@ -1,14 +1,32 @@
 import formDataToJson from "../../shared/functions/form.js";
+import serviceBank from "../../shared/services/bank.js";
 
 export default {
   template: "#register-template",
+  data() {
+    return {
+      errors: []
+    };
+  },
   methods: {
-    handleSubmit: (e) => {
+    handleSubmit(e) {
       e.preventDefault();
       
       const data = formDataToJson(new FormData(e.target));
-      
-      console.log(data);
+
+      if (data.password !== data.passwordConfirm) {
+        this.errors = ["As senhas não conferem"];
+        return;
+      }
+
+      serviceBank.cadastrarCliente(
+        data
+      ).then(response => {
+        console.log(response);
+        this.errors = [];
+      }).catch(error => {
+        this.errors = error.errors;
+      });
     }
   }
 }
