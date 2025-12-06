@@ -33,14 +33,14 @@ public class Application {
 				)
 			);
 
-			System.out.println("As taxas foram carregadas com sucesso!");
-
 			usuarioRepository.saveAll(
 				List.of(
 					new UsuarioEntity("MATEUS SILVA", "msofteng", generateMD5("mateus123"), 2239650042L, 10000.00)
 				)
 			);
 
+			System.out.println("=========================================");
+			System.out.println("As taxas foram carregadas com sucesso!");
 			System.out.println("Os clientes foram carregados com sucesso!");
 		};
 	}
