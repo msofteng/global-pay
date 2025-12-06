@@ -112,5 +112,8 @@
       <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 opacity-50 cursor-not-allowed bg-gray-200" disabled>&raquo;</button>
     </div>
 
+    <p class="text-center text-gray-700 mt-10 max-w-xl mx-auto" v-if="transferencias.length == 0">
+      Não há transferências para serem exibidas nos filtros selecionados.
+    </p>
   </div>
 </template>
