@@ -37,8 +37,7 @@ public class Application {
 
 			usuarioRepository.saveAll(
 				List.of(
-					new UsuarioEntity("ANA LUIZA MARTINS", "analuiza", generateMD5("analuiza123"), 2239650042L, 500.0),
-					new UsuarioEntity("ANA DE OLIVEIRA PEIXOTO", "anaoliveira", generateMD5("anaoliveira123"), 6953459917L, 700.0)
+					new UsuarioEntity("MATEUS SILVA", "msofteng", generateMD5("mateus123"), 2239650042L, 10000.00)
 				)
 			);
 
