@@ -14,7 +14,6 @@ export default [
 
   // bank
   "/assets/js/src/pages/bank/Dashboard.html",
-  "/assets/js/src/pages/bank/Search.html",
   "/assets/js/src/pages/bank/Statement.html",
   "/assets/js/src/pages/bank/Transfer.html",
 
