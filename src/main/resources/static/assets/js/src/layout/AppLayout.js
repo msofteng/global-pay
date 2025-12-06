@@ -1,3 +1,8 @@
+import Navbar from "../shared/components/Navbar.js";
+
 export default {
-  template: `<router-view />`
+  template: "#app-template",
+  components: {
+    Navbar
+  }
 }

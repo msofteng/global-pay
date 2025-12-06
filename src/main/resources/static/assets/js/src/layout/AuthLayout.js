@@ -1,3 +1,3 @@
 export default {
-  template: `<router-view />`
+  template: "#auth-template"
 }

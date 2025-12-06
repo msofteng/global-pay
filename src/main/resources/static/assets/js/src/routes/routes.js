@@ -1,8 +1,10 @@
-import AppLayout from "../layout/AppLayout.js";
-import Home from "../pages/Home.js";
-import Users from "../pages/Users.js";
 import authRoutes from "./authRoutes.js";
 import bankRoutes from "./bankRoutes.js";
+
+import AppLayout from "../layout/AppLayout.js";
+
+import Home from "../pages/Home.js";
+import Users from "../pages/Users.js";
 
 const routes = [
   {
