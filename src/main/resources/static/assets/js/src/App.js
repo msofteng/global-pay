@@ -1,11 +1,9 @@
+import Navbar from "./shared/components/Navbar.js";
+
 export default {
   template: `
     <div>
-      <nav>
-        <router-link to="/home">Home</router-link>
-        <router-link to="/users">Users</router-link>
-      </nav>
-
+      ${Navbar.template}
       <router-view></router-view>
     </div>
   `

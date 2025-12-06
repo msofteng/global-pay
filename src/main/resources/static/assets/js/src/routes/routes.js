@@ -1,29 +1,29 @@
-import Home from '../pages/Home.js';
-import Users from '../pages/Users.js';
+import Home from "../pages/Home.js";
+import Users from "../pages/Users.js";
 
 const routes = [
   {
-    path: '',
+    path: "",
     component: {
-      template: '<router-view />'
+      template: "<router-view />"
     },
     children: [
       {
-        path: '',
-        redirect: 'home'
+        path: "",
+        redirect: "home"
       },
       {
-        path: 'home',
+        path: "home",
         component: Home,
         meta: {
-          title: 'Página Inicial'
+          title: "Página Inicial"
         }
       },
       {
-        path: 'users',
+        path: "users",
         component: Users,
         meta: {
-          title: 'Listar Usuários'
+          title: "Listar Usuários"
         }
       }
     ]

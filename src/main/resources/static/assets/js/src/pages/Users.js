@@ -1,4 +1,4 @@
-import serviceBank from '../shared/services/bank.js';
+import serviceBank from "../shared/services/bank.js";
 
 export default {
   data() {
@@ -7,27 +7,26 @@ export default {
     };
   },
   methods: {
-    async loadUsers() {
-      const req = await fetch('http://localhost:8080/home/users');
-      this.users = await req.json();
-    },
-    async registerUser() {
+    registerUser() {
       serviceBank.cadastrarCliente({
         fullName: "MATEUS SILVA",
         username: "msofteng",
         password: "mateus123"
       }).then(response => {
-        console.log(response);
+        this.users = [response];
       }).catch(error => {
-        console.log(error.errors);
+        this.users = error.errors;
       })
     }
   },
   template: `
     <div class="pg-users">
       <h3 class="text-3xl font-bold underline text-clifford">Users</h3>
-      <button @click="loadUsers">Load Users</button>
-      <button @click="registerUser">Add User</button>
+
+      <button @click="registerUser" class="rounded-md bg-gray-950/75 px-3 py-2 text-sm font-medium text-white hover:bg-gray-950/100">
+        Add User
+      </button>
+
       <pre>{{ users }}</pre>
     </div>
   `

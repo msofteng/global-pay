@@ -1,6 +1,6 @@
 const { createRouter, createWebHashHistory } = VueRouter;
 
-import routes from './routes.js';
+import routes from "./routes.js";
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -8,7 +8,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta?.title || 'Global PAY';
+  document.title = to.meta?.title || "Global PAY";
   next();
 });
 

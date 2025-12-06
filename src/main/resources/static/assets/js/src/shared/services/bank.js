@@ -15,7 +15,7 @@ export default {
    * @returns {number} `return.numeroConta` - Número da conta gerado.
    */
   cadastrarCliente: (data) => {
-    return http.post('/bank/user/add', data);
+    return http.post("/bank/user/add", data);
   },
 
   /**
@@ -31,7 +31,7 @@ export default {
    * 
    */
   buscarClientes: (
-    username = '',
+    username = "",
     pg = 1,
     qtd = 10
   ) => {
@@ -53,7 +53,7 @@ export default {
    * @returns {string} `return.fullName` - Nome completo do cliente.
    * @returns {string} `return.username` - Nome de usuário do cliente.
    */
-  buscarCliente: (usernameOrId = '') => {
+  buscarCliente: (usernameOrId = "") => {
     return http.get(`/bank/user/${usernameOrId}`);
   },
 
@@ -105,7 +105,7 @@ export default {
    * @returns {number} `return.taxa.taxa` - Taxa da transferência.
    */
   realizarTransferencia: (data) => {
-    return http.post('/bank/transfer', data);
+    return http.post("/bank/transfer", data);
   },
 
   /**
@@ -144,6 +144,6 @@ export default {
    * @returns {number} `return[0].taxa.taxa` - Taxa da transferência.
    */
   consultarExtrato: (data) => {
-    return http.post('/bank/transfer', data);
+    return http.post("/bank/transfer", data);
   }
 }

@@ -6,7 +6,7 @@ const httpInstance = {
   }
 };
 
-const baseUrl = 'https://localhost:8080';
+const baseUrl = "https://localhost:8080";
 
 const _http = httpInstance.create(baseUrl);
 
@@ -16,9 +16,9 @@ const http = {
     url.search = new URLSearchParams(params).toString();
 
     const res = await _http(
-      url.toString().replace(`${baseUrl}/`, ''),
+      url.toString().replace(`${baseUrl}/`, ""),
       {
-        method: 'GET',
+        method: "GET",
         ...options
       }
     );
@@ -33,10 +33,10 @@ const http = {
     const res = await _http(
       path,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          "Accept": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(data),
         ...options
@@ -53,7 +53,7 @@ const http = {
     const res = await _http(
       path,
       {
-        method: 'DELETE',
+        method: "DELETE",
         ...options
       }
     );
@@ -61,7 +61,7 @@ const http = {
     if (!res.ok) {
       return Promise.reject(await res.json());
     } else {
-      return Promise.resolve(res.headers.get('message'));
+      return Promise.resolve(res.headers.get("message"));
     }
   }
 };
