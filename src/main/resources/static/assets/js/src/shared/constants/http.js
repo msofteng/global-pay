@@ -6,7 +6,7 @@ const httpInstance = {
   }
 };
 
-const baseUrl = "https://localhost:8080";
+const baseUrl = "https://global-pay.onrender.com";
 
 const _http = httpInstance.create(baseUrl);
 
