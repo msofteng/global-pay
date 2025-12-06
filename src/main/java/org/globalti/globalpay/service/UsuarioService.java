@@ -3,15 +3,12 @@ package org.globalti.globalpay.service;
 import static org.globalti.globalpay.util.Util.*;
 import static org.springframework.http.HttpStatus.*;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.globalti.globalpay.entity.UsuarioEntity;
 import org.globalti.globalpay.exception.GlobalPayException;
 import org.globalti.globalpay.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -49,26 +46,6 @@ public class UsuarioService {
     return formatarUsuario(usuario);
   }
 
-  public List<UsuarioEntity> buscarUsuarios(String username, String qtd, String page) throws GlobalPayException {
-    if (!isInt(qtd)) {
-      throw new GlobalPayException("A quantidade por página está incorreta ou não foi informada!", BAD_REQUEST);
-    }
-
-    if (!isInt(page)) {
-      throw new GlobalPayException("A página está incorreta ou não foi informada!", BAD_REQUEST);
-    }
-
-    return usuarioRepository.findByUsernameContaining(
-      username,
-      PageRequest.of(
-        Integer.parseInt(page) - 1,
-        Integer.parseInt(qtd)
-      )
-    )
-      .map(user -> formatarUsuario(user))
-      .toList();
-  }
-
   public void deletar(String id, HttpServletResponse response) throws GlobalPayException {
     if (!isLong(id)) {
       throw new GlobalPayException("O ID deve ser um número!", BAD_REQUEST);
@@ -81,8 +58,8 @@ public class UsuarioService {
   private UsuarioEntity formatarUsuario(UsuarioEntity usuario) {
     usuario.setId(null);
     usuario.setPassword(null);
-    usuario.setNumeroConta(null);
-    usuario.setSaldo(null);
+    // usuario.setNumeroConta(null);
+    // usuario.setSaldo(null);
     usuario.setTransferenciasEnviadas(null);
     usuario.setTransferenciasRecebidas(null);
 

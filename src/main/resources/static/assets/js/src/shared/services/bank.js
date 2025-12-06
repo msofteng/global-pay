@@ -19,32 +19,6 @@ export default {
   },
 
   /**
-   * Busca clientes na base de dados.
-   *
-   * @param {string} [username] - Nome de usuário do cliente.
-   * @param {number} [pg] - Número da página.
-   * @param {number} [qtd] - Quantidade de itens por página.
-   *
-   * @returns {Promise<Object[]>} Resposta contendo os dados dos clientes.
-   * @returns {string} `return[0].fullName` - Nome completo do cliente.
-   * @returns {string} `return[0].username` - Nome de usuário do cliente.
-   * 
-   */
-  buscarClientes: (
-    username = "",
-    pg = 1,
-    qtd = 10
-  ) => {
-    return http.get(
-      `/bank/users/${username}`,
-      {
-        pagina: pg,
-        quantidade: qtd
-      }
-    )
-  },
-
-  /**
    * Busca um cliente na base de dados.
    *
    * @param {string} [usernameOrId] - Nome de usuário ou ID do cliente.

@@ -2,8 +2,6 @@ package org.globalti.globalpay.controller;
 
 import static org.springframework.http.HttpStatus.*;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -42,19 +40,6 @@ public class UsuarioController {
   )
   public UsuarioEntity encontrarPeloUsuarioId(@PathVariable String idUser) throws GlobalPayException {
     return usuarioService.buscarPorUsuarioId(idUser);
-  }
-
-  @GetMapping("users/{username}")
-  @Operation(
-    summary = "Consultar Clientes",
-    description = "Consultar clientes pelo nome de usuário"
-  )
-  public List<UsuarioEntity> encontrarPeloUsername(
-    @PathVariable String username,
-    @RequestParam String pagina,
-    @RequestParam String quantidade
-  ) throws GlobalPayException {
-    return usuarioService.buscarUsuarios(username, quantidade, pagina);
   }
 
   @DeleteMapping("user/{id}")
