@@ -17,5 +17,11 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("usuario");
+      window.location.href = "/#/auth/login";
+    }
   }
 }

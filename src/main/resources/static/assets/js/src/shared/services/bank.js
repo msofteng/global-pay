@@ -118,7 +118,7 @@ export default {
    * @returns {number} `return[0].taxa.taxa` - Taxa da transferência.
    */
   consultarExtrato: (data) => {
-    return http.post("/bank/transfer", data);
+    return http.post("/bank/statement", data);
   },
 
   /**

@@ -20,11 +20,10 @@
 
     <!-- Filtros -->
     <form @submit.prevent="handleSubmit" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-
       <!-- Número da conta -->
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Número da conta</label>
-        <input type="number" name="nrConta" placeholder="000000" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <input type="number" name="nrConta" readonly v-model="numeroConta" placeholder="000000" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 opacity-50 cursor-not-allowed bg-gray-200">
       </div>
 
       <!-- Tipo do extrato -->
@@ -32,7 +31,7 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">Tipo do extrato</label>
         <select name="tipo" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           <option value="">SELECIONE</option>
-          <option value="RECEBIDO">Depósitos</option>
+          <option value="RECEBIDO">Recebido</option>
           <option value="ENVIADO">Transferências</option>
           <option value="COMPLETO">Completo</option>
         </select>
@@ -56,79 +55,61 @@
           Consultar
         </button>
       </div>
-
     </form>
 
+    <div class="errors mt-5">
+      <div
+        class="p-4 px-6 mb-3 bg-red-700 items-center text-indigo-100 leading-none rounded-full flex lg:inline-flex w-full"
+        v-for="e in errors"
+        role="alert"
+      >
+        <span class="font-normal text-left flex-auto text-white">
+          {{ e }}
+        </span>
+      </div>
+    </div>
+
     <!-- Título lista -->
-    <p class="text-sm text-gray-500 mb-4">
+    <p class="text-sm text-gray-500 mb-4" v-if="transferencias.length > 0">
       Resultados do extrato bancário
     </p>
 
-    <hr class="border-gray-200 mb-2">
+    <hr class="border-gray-200 mb-2" v-if="transferencias.length > 0">
 
     <!-- Lista de extratos -->
-    <ul class="space-y-6">
+    <ul class="space-y-6" v-if="transferencias.length > 0">
 
       <!-- Item extrato -->
-      <li>
+      <li v-for="t in transferencias">
         <div class="flex items-center justify-between">
           <div>
-            <p class="font-medium text-gray-800">15/02/2025 — Depósito via TED</p>
+            <p class="font-medium text-gray-800">
+              {{ formatarData(t.dataOperacao) }}
+              {{ tipoOperacao(t) == 'recebido' ? "— Recebido via TED" : "— Enviado" }}
+              {{ tipoOperacao(t) == 'recebido' ? "por " + t.origem.fullName : "para " + t.destino.fullName }}<br>
+              <small>{{ isAgendado(t.dataAgendamento) ? "Agendado para " + formatarData(t.dataAgendamento) : "" }}</small>
+            </p>
             <p class="text-gray-500 text-sm">Crédito</p>
           </div>
 
-          <p class="font-semibold text-green-600">+ R$ 1.500,00</p>
+          <p
+            class="font-semibold "
+            :class="tipoOperacao(t) == 'recebido' ? 'text-green-600' : 'text-red-600'"
+          >
+            {{ tipoOperacao(t) == 'recebido' ? "+" : "-" }} {{ formatarMoeda( tipoOperacao(t) == 'recebido' ? t.valor : t.valorOperacao ) }}
+          </p>
         </div>
         <hr class="border-gray-200 mt-4">
       </li>
-
-      <!-- Item extrato -->
-      <li>
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="font-medium text-gray-800">14/02/2025 — Pagamento Mercado</p>
-            <p class="text-gray-500 text-sm">Débito</p>
-          </div>
-
-          <p class="font-semibold text-red-600">- R$ 220,73</p>
-        </div>
-        <hr class="border-gray-200 mt-4">
-      </li>
-
-      <!-- Item extrato -->
-      <li>
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="font-medium text-gray-800">10/02/2025 — Transferência Enviada</p>
-            <p class="text-gray-500 text-sm">Débito</p>
-          </div>
-
-          <p class="font-semibold text-red-600">- R$ 500,00</p>
-        </div>
-        <hr class="border-gray-200 mt-4">
-      </li>
-
-      <!-- Item extrato -->
-      <li>
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="font-medium text-gray-800">05/02/2025 — Recebimento PIX</p>
-            <p class="text-gray-500 text-sm">Crédito</p>
-          </div>
-
-          <p class="font-semibold text-green-600">+ R$ 300,00</p>
-        </div>
-      </li>
-
     </ul>
 
     <!-- Paginação -->
-    <div class="mt-10 flex justify-center gap-2">
-      <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">&laquo;</button>
-      <button class="px-3 py-1 border border-primary bg-primary text-white rounded">1</button>
-      <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">2</button>
-      <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">3</button>
-      <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">&raquo;</button>
+    <div class="mt-10 flex justify-center gap-2" v-if="transferencias.length > 0">
+      <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 opacity-50 cursor-not-allowed bg-gray-200" disabled>&laquo;</button>
+      <button class="px-3 py-1 border border-primary bg-primary text-white rounded opacity-50 cursor-not-allowed bg-gray-200" disabled>1</button>
+      <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 opacity-50 cursor-not-allowed bg-gray-200" disabled>2</button>
+      <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 opacity-50 cursor-not-allowed bg-gray-200" disabled>3</button>
+      <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 opacity-50 cursor-not-allowed bg-gray-200" disabled>&raquo;</button>
     </div>
 
   </div>
