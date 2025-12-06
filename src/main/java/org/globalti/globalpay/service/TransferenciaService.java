@@ -34,7 +34,7 @@ public class TransferenciaService {
   private EntityManager entityManager;
 
   public TransferenciaEntity realizarTransferencia(TransferenciaEntity transferencia) throws GlobalPayException {
-     // associar a "origem" ao usuário autenticado (spring-security)
+    // associar a "origem" ao usuário autenticado (spring-security)
     UsuarioEntity origem = usuarioRepository.findByNumeroConta(transferencia.getOrigem().getNumeroConta())
       .orElseThrow(() -> new GlobalPayException("A conta de origem não foi encontrada!", NOT_FOUND));
     UsuarioEntity destino = usuarioRepository.findByNumeroConta(transferencia.getDestino().getNumeroConta())
@@ -45,6 +45,10 @@ public class TransferenciaService {
 
     transferencia.setOrigem(origemRef);
     transferencia.setDestino(destinoRef);
+
+    if (transferencia.getOrigem().getNumeroConta().equals(transferencia.getDestino().getNumeroConta())) {
+      throw new GlobalPayException("Não é possível transferir para a mesma conta!", BAD_REQUEST);
+    }
 
     transferencia.setDataOperacao(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
 
