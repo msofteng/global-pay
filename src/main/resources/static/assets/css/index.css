@@ -1,13 +1,3 @@
-@import "../js/src/pages/Home.css";
-@import "../js/src/pages/Users.css";
-
-@import "../js/src/pages/auth/Login.css";
-@import "../js/src/pages/auth/Register.css";
-
-@import "../js/src/pages/bank/Dashboard.css";
-@import "../js/src/pages/bank/Statement.css";
-@import "../js/src/pages/bank/Transfer.css";
-
 html {
   --gb-bg-color: #061f96;
   --gb-brand-color: #f9c734;
