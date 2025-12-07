@@ -48,7 +48,11 @@
     cd global-pay
     ```
 
-3. Executá-lo em seu computador ([_com JDK 11 instalado_](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html))
+3. Navegar até o arquivo `http.js` localizado em `src/main/resources/static/assets/js/src/shared/constants`
+
+4. Substituir a [linha 9](https://github.com/msofteng/global-pay/blob/master/src/main/resources/static/assets/js/src/shared/constants/http.js#L9) por `const BASE_URL = 'http://localhost:8080';`
+
+4. Executá-lo em seu computador ([_com JDK 11 instalado_](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html))
 
     ```bash
     ./mvnw spring-boot:run
